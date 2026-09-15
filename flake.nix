@@ -25,6 +25,7 @@
             echo "$i"
             waste-cpu &
           done
+          sleep 30
         '';
 
         runtimeInputs = [
