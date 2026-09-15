@@ -17,7 +17,7 @@
         };
       };
 
-      waste-cpu = pkgs.mkDerivation {
+      waste-cpu = pkgs.stdenv.mkDerivation {
         pname = "waste-cpu";
         version = "0.1.0";
         meta.mainProgram = "waste-cpu";
