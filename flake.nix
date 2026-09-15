@@ -13,8 +13,23 @@
         tag = "latest";
 
         config = {
-          Cmd = [ "${pkgs.lib.getExe self-pkgs.waste-cpu}" ];
+          Cmd = [ "${pkgs.lib.getExe self-pkgs.waste-cpus}" ];
         };
+      };
+
+      waste-cpus = pkgs.writeShellApplication {
+        name = "waste-cpus";
+
+        text = ''
+          for i in $(seq $(nproc)); do
+            waste-cpu &
+          done
+        '';
+
+        runTimeInputs = [
+          self-pkgs.waste-cpu
+          pkgs.coreutils
+        ];
       };
 
       waste-cpu = pkgs.stdenv.mkDerivation {
