@@ -21,8 +21,9 @@
         name = "waste-cpus";
 
         text = ''
-          for _ in $(seq "$(nproc)"); do
-              waste-cpu &
+          for i in $(seq "$(nproc)"); do
+            echo $i
+            waste-cpu &
           done
         '';
 
