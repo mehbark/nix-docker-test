@@ -1,7 +1,11 @@
 {
-  inputs.nixpkgs.url = "https://channels.nixos.org/nixos-26.05/nixexprs.tar.zst";
+  inputs = {
+    nixpkgs.url = "https://channels.nixos.org/nixos-26.05/nixexprs.tar.zst";
+    kubix.url = "github:skystar-p/kubix";
+    kubix.inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, kubix }:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -15,6 +19,10 @@
         config = {
           Cmd = [ "${pkgs.lib.getExe self-pkgs.waste-cpus}" ];
         };
+      };
+
+      manifests = kubix.lib.buildManifests system {
+        manifests = import ./manifest.nix;
       };
 
       waste-cpus = pkgs.writeShellApplication {

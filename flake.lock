@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "kubix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787646770,
+        "narHash": "sha256-KiesgMk4MP0mTRfS5qcr3V5PxPp1+cViQQ+pnOGErNI=",
+        "owner": "skystar-p",
+        "repo": "kubix",
+        "rev": "e1bc4e27a73a71f75e22ccbe218744681ce800d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "skystar-p",
+        "repo": "kubix",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1789344334,
@@ -15,6 +35,7 @@
     },
     "root": {
       "inputs": {
+        "kubix": "kubix",
         "nixpkgs": "nixpkgs"
       }
     }
