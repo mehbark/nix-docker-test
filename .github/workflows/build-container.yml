@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
-        run: nix build .#container --json
+        run: nix build .# --json
 
       - name: Load and Push Image
         run: |
