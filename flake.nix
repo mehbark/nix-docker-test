@@ -26,7 +26,7 @@
           done
         '';
 
-        runTimeInputs = [
+        runtimeInputs = [
           self-pkgs.waste-cpu
           pkgs.coreutils
         ];
