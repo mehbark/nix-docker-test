@@ -22,7 +22,7 @@
 
         text = ''
           for i in $(seq "$(nproc)"); do
-            echo $i
+            echo "$i"
             waste-cpu &
           done
         '';
