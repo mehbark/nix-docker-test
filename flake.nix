@@ -5,20 +5,30 @@
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    self-pkgs = self.packages.${system};
   in {
     packages.${system}.default = pkgs.dockerTools.buildLayeredImage {
       name = "ghcr.io/mehbark/nix-docker-test";
       tag = "latest";
 
-      contents = [
-        pkgs.fish
-        pkgs.bsdgames
-      ];
-
       config = {
-        Cmd = [ "${pkgs.lib.getExe pkgs.fish}" ];
-        Env = [ "PATH=${pkgs.bsdgames}/bin:$PATH" ];
+        Cmd = [ "${pkgs.lib.getExe self-pkgs.waste-cpu}" ];
       };
+    };
+
+    packages.${system}.waste-cpu = pkgs.mkDerivation {
+      pname = "waste-cpu";
+      version = "0.1.0";
+      meta.mainProgram = "waste-cpu";
+
+      installPhase = ''
+        mkdir -p $out/bin
+        mv main $out/bin/waste-cpu
+      '';
+
+      src = ./waste-cpu;
+
+      buildInputs = [ pkgs.gcc ];
     };
   };
 }
