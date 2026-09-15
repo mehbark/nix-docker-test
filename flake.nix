@@ -1,28 +1,24 @@
 {
   inputs.nixpkgs.url = "https://channels.nixos.org/nixos-26.05/nixexprs.tar.zst";
 
-  outputs = { self, nixpkgs }: {
-    nixosConfigurations.container = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ({ pkgs, ... }: {
-          boot.isContainer = true;
+  outputs = { self, nixpkgs }:
+  let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    packages.${system}.default = pkgs.dockerTools.buildLayeredImage {
+      name = "ghcr.io/mehbark/nix-docker-test";
+      tag = "latest";
 
-          # Let 'nixos-version --json' know about the Git revision
-          # of this flake.
-          system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
-
-          # Network configuration.
-          networking.useDHCP = false;
-          networking.firewall.allowedTCPPorts = [ 80 ];
-
-          # Enable a web server.
-          services.httpd = {
-            enable = true;
-            adminAddr = "morty@example.org";
-          };
-        })
+      contents = [
+        pkgs.fish
+        pkgs.bsdgames
       ];
+
+      config = {
+        Cmd = [ "${pkgs.lib.getExe pkgs.fish}" ];
+        Env = [ "PATH=${pkgs.bsdgames}/bin:$PATH" ];
+      };
     };
   };
 }
